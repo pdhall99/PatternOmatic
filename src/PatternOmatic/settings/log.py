@@ -1,21 +1,21 @@
 """ Logging module
 
-This file is part of PatternOmatic.
+This file is part of patternomatic.
 
 Copyright © 2020  Miguel Revuelta Espinosa
 
-PatternOmatic is free software: you can redistribute it and/or
+patternomatic is free software: you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public License
 as published by the Free Software Foundation, either version 3 of
 the License, or (at your option) any later version.
 
-PatternOmatic is distributed in the hope that it will be useful,
+patternomatic is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
-along with PatternOmatic. If not, see <https://www.gnu.org/licenses/>.
+along with patternomatic. If not, see <https://www.gnu.org/licenses/>.
 
 """
 import logging
@@ -23,10 +23,11 @@ import sys
 import tempfile
 from logging.handlers import TimedRotatingFileHandler
 
-FORMATTER = \
-    logging.Formatter('[%(levelname)s] %(asctime)s %(filename)s:%(funcName)s:%(lineno)d : %(message)s')
+FORMATTER = logging.Formatter(
+    "[%(levelname)s] %(asctime)s %(filename)s:%(funcName)s:%(lineno)d : %(message)s"
+)
 
-LOG_FILE = tempfile.gettempdir() + '/patternomatic.log'
+LOG_FILE = tempfile.gettempdir() + "/patternomatic.log"
 
 
 def _get_console_handler():
@@ -46,7 +47,7 @@ def _get_file_handler():
     Returns:
 
     """
-    file_handler = TimedRotatingFileHandler(LOG_FILE, when='midnight')
+    file_handler = TimedRotatingFileHandler(LOG_FILE, when="midnight")
     file_handler.setFormatter(FORMATTER)
     return file_handler
 
@@ -68,4 +69,4 @@ def get_logger(logger_name):
     return logger
 
 
-LOG = get_logger('PatternOmatic')
+LOG = get_logger("patternomatic")
