@@ -55,4 +55,4 @@ publish:
 	twine upload -u __token__ -p ${PYPI_TOKEN} --repository-url https://upload.pypi.org/legacy/ dist/*
 
 run:
-	python ./scripts/patternomatic.py -s Hello Mr. Puffin -s Goodbye Mrs. Muffin
+	python ./scripts/patternomatic_script.py -s Hello Mr. Puffin -s Goodbye Mrs. Muffin

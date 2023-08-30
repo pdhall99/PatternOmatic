@@ -20,6 +20,7 @@ along with patternomatic. If not, see <https://www.gnu.org/licenses/>.
 """
 import operator
 from time import time
+from typing import Any
 
 from patternomatic.settings.config import Config
 from patternomatic.settings.literals import ReportFormat
@@ -126,9 +127,9 @@ class Stats(object):
         """
         self.time_accumulator.append(time_interval)
 
-    def add_most_fitted(self, individual: any) -> None:
-        """
-        Adds a new individual to the accumulator
+    def add_most_fitted(self, individual: Any) -> None:
+        """Adds a new individual to the accumulator.
+
         Args:
             individual: Individual with best fitness found over a RUN
 
@@ -192,10 +193,12 @@ class Stats(object):
         return sum(al) / len(al) if len(al) > 0 else 0.0
 
     def persist(self) -> None:
-        """
-        Makes or append execution result to file. If no valid format is specified CSV will be used as default
-        Returns: None
+        """Makes or append execution result to file.
 
+        If no valid format is specified CSV will be used as default.
+
+        Returns:
+            None
         """
         if self.config.report_format == ReportFormat.JSON:
             with open(self.config.report_path, mode="a+") as f:

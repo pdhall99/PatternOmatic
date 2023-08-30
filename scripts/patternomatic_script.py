@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 """ Command Line Interface module
 
 This file is part of patternomatic.

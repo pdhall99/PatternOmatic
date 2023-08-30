@@ -56,8 +56,8 @@ def find_patterns(
     LOG.info(f"Loading language model {spacy_language_model_name}...")
     if "en-core-web-sm" not in [d.project_name for d in pkg_resources.working_set]:
         LOG.info(
-            f"patternomatic's default spaCy's Language Model not installed,"
-            f" proceeding to install en_core_web_sm, please wait..."
+            "patternomatic's default spaCy's Language Model not installed,"
+            " proceeding to install en_core_web_sm, please wait..."
         )
         spacy_download("en_core_web_sm")
 

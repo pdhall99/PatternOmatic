@@ -30,7 +30,7 @@ from patternomatic.settings.literals import ReplacementType, SelectionType
 from patternomatic.settings.log import LOG
 
 
-class Selection(object):
+class Selection:
     """Dispatches the proper selection type for population instances"""
 
     __slots__ = "_select"
@@ -70,16 +70,17 @@ class Selection(object):
     @staticmethod
     def _binary_tournament(generation: List[Individual]) -> List[Individual]:
         """
-        Selects members of the current generation into the mating pool in order to produce offspring by comparing pairs
-        of Individuals and adding the best of each pair to the "mating pool" until its filled
+        Selects members of the current generation into the mating pool in order to
+        produce offspring by comparing pairs of Individuals and adding the best of each
+        pair to the "mating pool" until its filled
 
         Args:
             generation: A list of Individual instances
 
-        Returns: A list of Individual instances
-
+        Returns:
+            A list of Individual instances
         """
-        mating_pool = []
+        mating_pool: List = []
 
         while len(mating_pool) <= len(generation):
             i = random.randint(0, len(generation) - 1)
@@ -113,7 +114,7 @@ class Selection(object):
         raise NotImplementedError
 
 
-class Recombination(object):
+class Recombination:
     """Dispatches the proper recombination type for population instances"""
 
     __slots__ = ("_recombine", "config", "grammar", "samples", "stats")
@@ -129,7 +130,7 @@ class Recombination(object):
     def __call__(
         self, mating_pool: List[Individual], generation: List[Individual]
     ) -> List[Individual]:
-        LOG.debug(f"Combining individuals...")
+        LOG.debug("Combining individuals...")
         return self._recombine(mating_pool, generation)
 
     def __dispatch_recombination_type(self) -> None:
@@ -145,15 +146,17 @@ class Recombination(object):
         self, mating_pool: List[Individual], generation: List[Individual]
     ) -> List[Individual]:
         """
-        For each pair of Individual instances, recombines them produce two offsprings. Puts them all into the offspring
+        For each pair of Individual instances, recombines them produce two offsprings.
+        Puts them all into the offspring.
+
         Args:
             mating_pool: A list of Individual instances
             generation: A list of Individual instances
 
-        Returns: A list of Individual instances
-
+        Returns:
+            A list of Individual instances
         """
-        offspring = []
+        offspring: List = []
         offspring_max_size = round(
             len(generation) * self.config.offspring_max_size_factor
         )
@@ -191,7 +194,7 @@ class Recombination(object):
         return offspring
 
 
-class Replacement(object):
+class Replacement:
     """Dispatches the proper recombination type for population instances"""
 
     __slots__ = "_replace"
@@ -202,7 +205,7 @@ class Replacement(object):
     def __call__(
         self, generation: List[Individual], offspring: List[Individual]
     ) -> Tuple[List[Individual], List[Individual]]:
-        LOG.debug(f"Replacing individuals...")
+        LOG.debug("Replacing individuals...")
         return self._replace(generation, offspring)
 
     def __dispatch_replacement_type(self, replacement_type: ReplacementType) -> None:
@@ -249,13 +252,15 @@ class Replacement(object):
         generation: List[Individual], offspring: List[Individual]
     ) -> Tuple[List[Individual], List[Individual]]:
         """
-        Produces the next generation using the offspring and the best Individual of the current generation
+        Produces the next generation using the offspring and the best Individual of the
+        current generation.
+
         Args:
             generation: A list of Individual instances
             offspring: A list of Individual instances
 
-        Returns: A tuple containing two list of Individual instances
-
+        Returns:
+            A tuple containing two list of Individual instances
         """
         generation.sort(key=lambda i: i.fitness_value, reverse=True)
         offspring.sort(key=lambda i: i.fitness_value, reverse=True)
@@ -269,13 +274,15 @@ class Replacement(object):
         generation: List[Individual], offspring: List[Individual]
     ) -> Tuple[List[Individual], List[Individual]]:
         """
-        Produces the next generation totally replacing the current generation with the offspring
+        Produces the next generation totally replacing the current generation with the
+        offspring.
+
         Args:
             generation: A list of Individual instances
             offspring: A list of Individual instances
 
-        Returns: A tuple containing two list of Individual instances
-
+        Returns:
+            A tuple containing two list of Individual instances
         """
         offspring.sort(key=lambda i: i.fitness_value, reverse=True)
         generation = offspring[0 : len(generation)]
@@ -284,8 +291,10 @@ class Replacement(object):
         return generation, offspring
 
 
-class Population(object):
-    """Population implementation of an AI Grammatical Evolution algorithm in OOP fashion"""
+class Population:
+    """
+    Population implementation of an AI Grammatical Evolution algorithm in OOP fashion
+    """
 
     __slots__ = (
         "config",
@@ -300,7 +309,7 @@ class Population(object):
         "replacement",
     )
 
-    def __init__(self, samples: [Doc], grammar: dict, stats: Stats):
+    def __init__(self, samples: List[Doc], grammar: dict, stats: Stats) -> None:
         """
         Population constructor, initializes a list of Individual objects
         Args:
@@ -336,8 +345,8 @@ class Population(object):
 
     def _best_challenge(self) -> None:
         """
-        Compares current generation best fitness individual against previous generation best fitness individual.
-        Updates the best individual attribute accordingly
+        Compares current generation best fitness individual against previous generation
+        best fitness individual. Updates the best individual attribute accordingly
         """
         if self.best_individual is not None:
             if self.generation[0].fitness_value > self.best_individual.fitness_value:

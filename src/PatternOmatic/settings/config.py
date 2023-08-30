@@ -62,7 +62,7 @@ from patternomatic.settings.log import LOG
 class SingletonMetaNaive(type):
     """The Naive Singleton Design Pattern of type Metaclass builder"""
 
-    _instance: Optional[Config, None] = None
+    _instance: Optional[Config] = None
 
     def __call__(cls, config_file_path: str = None) -> Config:
         if cls._instance is None:
@@ -118,7 +118,7 @@ class Config(metaclass=SingletonMetaNaive):
 
         if config_file_path is None:
             LOG.warning(
-                f"Configuration file not provided. Falling back to default values"
+                "Configuration file not provided. Falling back to default values"
             )
             self.file_path = None
         else:
@@ -247,7 +247,8 @@ class Config(metaclass=SingletonMetaNaive):
                     self._check_xps_op_restriction()
             else:
                 LOG.warning(
-                    f"Invalid data type {type(value)} for property {key}. Skipping update"
+                    "Invalid data type {type(value)} for property {key}. "
+                    "Skipping update"
                 )
         else:
             super(Config, self).__setattr__(key, value)
@@ -307,14 +308,16 @@ class Config(metaclass=SingletonMetaNaive):
     #
     def _check_xps_op_restriction(self) -> None:
         """
-        Spacy's Grammar Operators and Quantifiers and the Spacy's Extended Pattern Syntax can not be used together  at
-        the same time in a pattern for the Spacy's Rule Based Matcher.
+        Spacy's Grammar Operators and Quantifiers and the Spacy's Extended Pattern
+        Syntax can not be used together at the same time in a pattern for the Spacy's
+        Rule Based Matcher.
 
-        This method checks the provided configuration and disables the Spacy's Extended Pattern Syntax if both
-        mechanisms are found enabled at the provided configuration.
+        This method checks the provided configuration and disables the Spacy's Extended
+        Pattern Syntax if both mechanisms are found enabled at the provided
+        configuration.
 
-        Returns: None
-
+        Returns:
+            None
         """
         if (
             hasattr(self, USE_EXTENDED_PATTERN_SYNTAX.lower())
@@ -323,7 +326,8 @@ class Config(metaclass=SingletonMetaNaive):
             and self.use_grammar_operators is True
         ):
             LOG.warning(
-                f"Extended Pattern Syntax is not compatible with the usage of Grammar Operators. "
-                f"Extended Pattern Syntax has been disabled!"
+                "Extended Pattern Syntax is not compatible with the usage of Grammar "
+                "Operators. "
+                "Extended Pattern Syntax has been disabled!"
             )
             self.use_extended_pattern_syntax = False

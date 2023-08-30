@@ -23,7 +23,7 @@ from unittest import TestCase, mock
 
 from spacy import load as spacy_load
 
-import scripts.patternomatic as pom
+import scripts.patternomatic_script as pom
 from patternomatic.settings.log import LOG
 
 
@@ -97,7 +97,7 @@ class TestpatternomaticScript(TestCase):
         script_path = os.path.join(
             os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir),
             "scripts",
-            "patternomatic.py",
+            "patternomatic_script.py",
         )
 
         output_signal = os.system("python " + script_path + " -s Hello -s Goodbye")
